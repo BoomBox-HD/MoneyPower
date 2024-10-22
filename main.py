@@ -51,6 +51,7 @@ class MyStates(StatesGroup):
     AdminNewUser = State()
 
 
+#При запуске бота происходит проверка на то, зарегистрирован ли он. Если нет - идет добавление в бота.
 @bot.message_handler(commands=['start'])
 async def start(message: types.Message):
     if message.chat.type == "private":
@@ -72,7 +73,8 @@ async def start(message: types.Message):
                                    reply_markup=await main_buttons(user_dat))
             await bot.send_message(message.chat.id, e.emojize(texts_for_bot["trial_message"]))
 
-
+# Функция находиться в состоянии редактирования (взаимодействие с клиентом). Идет возвращение пользователя
+# назад, добавление времени к подписке или же убирает время, присутствует интерфейс для админа 
 @bot.message_handler(state=MyStates.editUser, content_types=["text"])
 async def Work_with_Message(m: types.Message):
     async with bot.retrieve_data(m.from_user.id) as data:
@@ -98,7 +100,8 @@ async def Work_with_Message(m: types.Message):
                                reply_markup=Butt_skip)
         return
 
-
+# Декоратор обработчика сообщений
+# Идет управление сброса времени, обновление инфы в БД, формирование текущего статуса подписки и отправке пользователю ответа
 @bot.message_handler(state=MyStates.editUserResetTime, content_types=["text"])
 async def Work_with_Message(m: types.Message):
     async with bot.retrieve_data(m.from_user.id) as data:
@@ -127,6 +130,8 @@ async def Work_with_Message(m: types.Message):
                            reply_markup=await buttons.admin_buttons_edit_user(user_dat), parse_mode="HTML")
 
 
+# Декоратор обработчика сообщений
+# Функция проверяет корректоность ввода данных, обрабатывает ошибки и идет дальше, где user должен ввести кол-во часов 
 @bot.message_handler(state=MyStates.UserAddTimeDays, content_types=["text"])
 async def Work_with_Message(m: types.Message):
     if e.demojize(m.text) == "Пропустить :next_track_button:":
@@ -148,7 +153,8 @@ async def Work_with_Message(m: types.Message):
     Butt_skip.add(types.KeyboardButton(e.emojize(f"Пропустить :next_track_button:")))
     await bot.send_message(m.from_user.id, "Введите сколько часов хотите добавить:", reply_markup=Butt_skip)
 
-
+# Декоратор обработчика сообщений
+# Функция проверяет корректоность ввода данных, обрабатывает ошибки и идет дальше, где user должен ввести кол-во минут
 @bot.message_handler(state=MyStates.UserAddTimeHours, content_types=["text"])
 async def Work_with_Message(m: types.Message):
     if e.demojize(m.text) == "Пропустить :next_track_button:":
@@ -170,7 +176,8 @@ async def Work_with_Message(m: types.Message):
     Butt_skip.add(types.KeyboardButton(e.emojize(f"Пропустить :next_track_button:")))
     await bot.send_message(m.from_user.id, "Введите сколько минут хотите добавить:", reply_markup=Butt_skip)
 
-
+# Декоратор обработчика сообщений
+# Функция дают возможность user проверить правильно ли он ввел данные и необходимость их потверждения
 @bot.message_handler(state=MyStates.UserAddTimeMinutes, content_types=["text"])
 async def Work_with_Message(m: types.Message):
     if e.demojize(m.text) == "Пропустить :next_track_button:":
@@ -199,7 +206,9 @@ async def Work_with_Message(m: types.Message):
                            f"Пользователю {str(tgid)} добавится:\n\nДни: {str(days)}\nЧасы: {str(hours)}\nМинуты: {str(minutes)}\n\nВсе верно ?",
                            reply_markup=Butt_skip)
 
-
+# Декоратор обработчика сообщений
+# Функция управление потверждением добавления времени к подписке, проверяет ответ user, рассчитывает общее время, добавляет к подписке
+# Направляет ответ о текущем статусе подписки
 @bot.message_handler(state=MyStates.UserAddTimeApprove, content_types=["text"])
 async def Work_with_Message(m: types.Message):
     all_time = 0
@@ -230,6 +239,7 @@ async def Work_with_Message(m: types.Message):
                            reply_markup=await buttons.admin_buttons_edit_user(user_dat), parse_mode="HTML")
 
 
+# Функция проверяет корректность ввода, getinfo about user, формирование сообщ. о его статусе, отправялет все это админу
 @bot.message_handler(state=MyStates.findUserViaId, content_types=["text"])
 async def Work_with_Message(m: types.Message):
     await bot.delete_state(m.from_user.id)
@@ -256,7 +266,7 @@ async def Work_with_Message(m: types.Message):
     await bot.send_message(m.from_user.id, e.emojize(readymes),
                            reply_markup=await buttons.admin_buttons_edit_user(user_dat), parse_mode="HTML")
 
-
+# Админ может добавить нового user в бота, добавляет его в БД
 @bot.message_handler(state=MyStates.AdminNewUser, content_types=["text"])
 async def Work_with_Message(m: types.Message):
     if e.demojize(m.text) == "Назад :right_arrow_curving_left:":
@@ -277,7 +287,9 @@ async def Work_with_Message(m: types.Message):
                                "Можно использовать только латинские символы и арабские цифры!\nПопробуйте заново.")
         return
 
-
+#ФУНКЦУЯ
+# Для админа - просмотр пользователей, продливать пробный период, user  с подпиской и тд
+# User - подключени, продление подписки и остальные тонкости (как подключить и тд и тп)
 @bot.message_handler(state="*", content_types=["text"])
 async def Work_with_Message(m: types.Message):
     user_dat = await User.GetInfo(m.chat.id)
@@ -487,7 +499,7 @@ async def Work_with_Message(m: types.Message):
         else:
             await bot.send_message(chat_id=m.chat.id, text="Сначала нужно купить подписку!")
 
-
+#Функция покупки на 1-3-6 месяцов 
 @bot.callback_query_handler(func=lambda c: 'BuyMonth:' in c.data)
 async def Buy_month(call: types.CallbackQuery):
     user_dat = await User.GetInfo(call.from_user.id)
@@ -507,6 +519,7 @@ async def Buy_month(call: types.CallbackQuery):
                                         provider_token=CONFIG["tg_shop_token"])
     await bot.answer_callback_query(call.id)
 
+# функция 
 async def AddTimeToUser(tgid, timetoadd):
     userdat = await User.GetInfo(tgid)
     db = await aiosqlite.connect(DBCONNECT)
@@ -534,7 +547,7 @@ async def AddTimeToUser(tgid, timetoadd):
     Butt_main.add(types.KeyboardButton(e.emojize(f"Продлить :money_bag:")),
                   types.KeyboardButton(e.emojize(f"Как подключить :gear:")))
 
-
+# Функция удаление пользователя 
 @bot.callback_query_handler(func=lambda c: 'DELETE:' in c.data or 'DELETYES:' in c.data or 'DELETNO:' in c.data)
 async def DeleteUserYesOrNo(call: types.CallbackQuery):
     idstatic = str(call.data).split(":")[1]
@@ -571,7 +584,7 @@ async def DeleteUserYesOrNo(call: types.CallbackQuery):
         await bot.answer_callback_query(call.id)
         return
 
-
+#Изменение цены за подписку 
 @bot.pre_checkout_query_handler(func=lambda query: True)
 async def checkout(pre_checkout_query):
     month = int(str(pre_checkout_query.invoice_payload).split(":")[1])
@@ -590,7 +603,7 @@ async def checkout(pre_checkout_query):
         await bot.answer_pre_checkout_query(pre_checkout_query.id, ok=True,
                                             error_message="Оплата не прошла, попробуйте еще раз!")
 
-
+#Новая оплата 
 @bot.message_handler(content_types=['successful_payment'])
 async def got_payment(m):
     payment: types.SuccessfulPayment = m.successful_payment

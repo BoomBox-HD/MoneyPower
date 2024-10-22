@@ -7,6 +7,7 @@ from datetime import datetime
 CONFIG={}
 
 async def main_buttons(user: User):
+    # awfawfafwfawf
     Butt_main = types.ReplyKeyboardMarkup(resize_keyboard=True)
     if user.subscription != "none":
         dateto = datetime.utcfromtimestamp(int(user.subscription)+CONFIG["UTC_time"]*3600).strftime('%d.%m.%Y %H:%M')
