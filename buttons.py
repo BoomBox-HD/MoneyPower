@@ -7,7 +7,7 @@ from datetime import datetime
 CONFIG={}
 
 async def main_buttons(user: User):
-    # awfawfafwfawf
+    # Функция которая создает клавиатуру для users. Тут инфо о подписке функционал (кнопки админ панель и прочее)
     Butt_main = types.ReplyKeyboardMarkup(resize_keyboard=True)
     if user.subscription != "none":
         dateto = datetime.utcfromtimestamp(int(user.subscription)+CONFIG["UTC_time"]*3600).strftime('%d.%m.%Y %H:%M')
@@ -26,7 +26,7 @@ async def main_buttons(user: User):
 
 
 
-
+#Функция которая создает клаву для админа и его админских возможностей
 async def admin_buttons():
     Butt_admin = types.ReplyKeyboardMarkup(resize_keyboard=True)
     Butt_admin.add(types.KeyboardButton(e.emojize(f"Вывести пользователей :bust_in_silhouette:")))
@@ -36,7 +36,7 @@ async def admin_buttons():
     Butt_admin.add(types.KeyboardButton(e.emojize(f"Уведомление об обновлении"))) 
     Butt_admin.add(types.KeyboardButton(e.emojize("Главное меню :right_arrow_curving_left:")))
     return Butt_admin
-
+#Функция которая создает клаву для админа и его админских возможностей
 async def admin_buttons_output_users():
     Butt_admin = types.ReplyKeyboardMarkup(resize_keyboard=True)
     Butt_admin.add(types.KeyboardButton(e.emojize(f"Пользователей с подпиской")))
@@ -44,14 +44,14 @@ async def admin_buttons_output_users():
     Butt_admin.add(types.KeyboardButton(e.emojize("Назад :right_arrow_curving_left:")))
     return Butt_admin
 
-
+#Функция которая создает клаву для админа и его админских возможностей
 async def admin_buttons_static_users():
     Butt_admin = types.ReplyKeyboardMarkup(resize_keyboard=True)
     Butt_admin.add(types.KeyboardButton(e.emojize(f"Добавить пользователя :plus:")))
     Butt_admin.add(types.KeyboardButton(e.emojize(f"Вывести статичных пользователей")))
     Butt_admin.add(types.KeyboardButton(e.emojize("Назад :right_arrow_curving_left:")))
     return Butt_admin
-
+#Функция которая создает клаву для админа и его админских возможностей
 async def admin_buttons_edit_user(user: User):
     Butt_admin = types.ReplyKeyboardMarkup(resize_keyboard=True)
     Butt_admin.add(types.KeyboardButton(e.emojize(f"Добавить время")))
@@ -59,7 +59,7 @@ async def admin_buttons_edit_user(user: User):
         Butt_admin.add(types.KeyboardButton(e.emojize(f"Обнулить время")))
     Butt_admin.add(types.KeyboardButton(e.emojize("Назад :right_arrow_curving_left:")))
     return Butt_admin
-
+#Функция которая создает клаву для админа и его админских возможностей
 async def admin_buttons_back():
     Butt_admin = types.ReplyKeyboardMarkup(resize_keyboard=True)
     Butt_admin.add(types.KeyboardButton(e.emojize("Назад :right_arrow_curving_left:")))
