@@ -58,7 +58,7 @@ async def start(message: types.Message):
         await bot.delete_state(message.from_user.id)
         user_dat = await User.GetInfo(message.chat.id)
         if user_dat.registered:
-            await bot.send_message(message.chat.id, "Информация о подписке", parse_mode="HTML",
+            await bot.send_message(message.chat.id, "Здравствуйте!\nИнформация о подписке", parse_mode="HTML",
                                    reply_markup=await main_buttons(user_dat))
         else:
             try:
@@ -488,7 +488,7 @@ async def Work_with_Message(m: types.Message):
             Butt_how_to = types.InlineKeyboardMarkup()
             Butt_how_to.add(
                 types.InlineKeyboardButton(e.emojize("Подробнее как подключить"),
-                                           url="https://telegra.ph/Gajd-na-ustanovku-11-27"))
+                                           url="https://telegra.ph/Instrukciya-po-ustanovke-VPN-10-18"))
             Butt_how_to.add(
                 types.InlineKeyboardButton(e.emojize("Проверить VPN"),
                                            url="https://2ip.ru/"))
