@@ -369,7 +369,7 @@ async def Work_with_Message(m: types.Message):
                     Butt_main = types.ReplyKeyboardMarkup(resize_keyboard=True)
                     Butt_main.add(types.KeyboardButton(e.emojize(f"Продлить :money_bag:")),
                                 types.KeyboardButton(e.emojize(f"Как подключить :gear:")),
-                                types.KeyboardButton(e.emojize(f"Связаться с создателем :envelope_with_arrow:")))
+                                types.KeyboardButton(e.emojize(f"Поддержка :envelope_with_arrow:")))
                     BotChecking.send_message(i['tgid'],
                                             texts_for_bot["alert_to_extend_sub"],
                                             reply_markup=Butt_main, parse_mode="HTML")
@@ -397,7 +397,7 @@ async def Work_with_Message(m: types.Message):
                     Butt_main = types.ReplyKeyboardMarkup(resize_keyboard=True)
                     Butt_main.add(types.KeyboardButton(e.emojize(f"Продлить :money_bag:")),
                                 types.KeyboardButton(e.emojize(f"Как подключить :gear:")),
-                                types.KeyboardButton(e.emojize(f"Связаться с создателем :envelope_with_arrow:")))
+                                types.KeyboardButton(e.emojize(f"Поддержка :envelope_with_arrow:")))
                     BotChecking.send_message(i['tgid'],
                                             texts_for_bot["alert_to_update"],
                                             reply_markup=Butt_main, parse_mode="HTML")
@@ -501,7 +501,7 @@ async def Work_with_Message(m: types.Message):
         else:
             await bot.send_message(chat_id=m.chat.id, text="Сначала нужно купить подписку!")
 
-    if e.demojize(m.text) == "Связаться с создателем :envelope_with_arrow:":
+    if e.demojize(m.text) == "Поддержка :envelope_with_arrow:":
         Butt_contact_creator = types.InlineKeyboardMarkup()
         Butt_contact_creator.add(
         types.InlineKeyboardButton(e.emojize("Написать создателю"),
@@ -557,7 +557,7 @@ async def AddTimeToUser(tgid, timetoadd):
 
     Butt_main.add(types.KeyboardButton(e.emojize(f"Продлить :money_bag:")),
                   types.KeyboardButton(e.emojize(f"Как подключить :gear:")),
-                  types.KeyboardButton(e.emojize(f"Связаться с создателем :envelope_with_arrow:")))
+                  types.KeyboardButton(e.emojize(f"Поддержка :envelope_with_arrow:")))
 
 # Функция удаление пользователя 
 @bot.callback_query_handler(func=lambda c: 'DELETE:' in c.data or 'DELETYES:' in c.data or 'DELETNO:' in c.data)
@@ -662,7 +662,7 @@ def checkTime():
                         types.KeyboardButton(e.emojize(f":red_circle: Закончилась: {dateto} МСК:red_circle:")))
                     Butt_main.add(types.KeyboardButton(e.emojize(f"Продлить :money_bag:")),
                                   types.KeyboardButton(e.emojize(f"Как подключить :gear:")),
-                                  types.KeyboardButton(e.emojize(f"Связаться с создателем :envelope_with_arrow:")))
+                                  types.KeyboardButton(e.emojize(f"Поддержка :envelope_with_arrow:")))
                     BotChecking = TeleBot(BOTAPIKEY)
                     BotChecking.send_message(i['tgid'],
                                              texts_for_bot["ended_sub_message"],
@@ -691,7 +691,7 @@ def checkTime():
                 #     Butt_main = types.ReplyKeyboardMarkup(resize_keyboard=True)
                 #     Butt_main.add(types.KeyboardButton(e.emojize(f"Продлить :money_bag:")),
                 #                   types.KeyboardButton(e.emojize(f"Как подключить :gear:")),
-                #                   types.KeyboardButton(e.emojize(f"Связаться с создателем :envelope_with_arrow:")))
+                #                   types.KeyboardButton(e.emojize(f"Поддержка :envelope_with_arrow:")))
                 #     BotChecking.send_message(i['tgid'],
                 #                              e.emojize(texts_for_bot["alert_to_extend_sub"]),
                 #                              reply_markup=Butt_main, parse_mode="HTML")
